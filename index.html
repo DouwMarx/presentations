@@ -9,21 +9,267 @@
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/black.css">
-
-		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+		<style>
+			.reveal h2 { font-size: 1.4em; }
+			.reveal h3 { font-size: 1.0em; color: #42affa; }
+			.reveal ul { font-size: 0.75em; }
+			.reveal li { margin-bottom: 0.4em; }
+			.reveal p { font-size: 0.75em; }
+			.reveal .small { font-size: 0.55em; }
+			.reveal .dim { color: #888; }
+			.reveal blockquote { font-size: 0.7em; width: 90%; padding: 0.5em 1em; background: rgba(255,255,255,0.05); border-left: 4px solid #42affa; }
+			.reveal table { font-size: 0.6em; margin: 0 auto; }
+			.reveal table th { background: rgba(66,175,250,0.2); }
+			.two-col { display: flex; gap: 2em; align-items: flex-start; }
+			.two-col > * { flex: 1; }
+			.highlight-box { background: rgba(66,175,250,0.15); border-radius: 8px; padding: 0.8em 1em; margin: 0.5em 0; }
+			.reveal .fig-iframe { width: 95%; height: 500px; border: none; border-radius: 4px; background: white; }
+			.reveal .fig-iframe-tall { width: 95%; height: 550px; border: none; border-radius: 4px; background: white; }
+		</style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
+
+				<!-- ============ TITLE ============ -->
 				<section>
-					<h2>Reward Models & AI Safety</h2>
+					<h2>Reward Models &amp; AI Safety</h2>
 					<p>Leuven Data Science Meetup</p>
+					<p class="small dim">Douw Marx</p>
 				</section>
+
+				<!-- ============ OVERVIEW ============ -->
 				<section>
-					<h2>About</h2>
-					<p>Coming soon...</p>
+					<h2>Roadmap</h2>
+					<ol>
+						<li><strong>Alignment</strong> &mdash; measuring what reward models value</li>
+						<li class="dim"><strong>Control</strong> &mdash; (coming soon)</li>
+						<li class="dim"><strong>Conclusions</strong></li>
+					</ol>
 				</section>
+
+				<!-- ============ PART 1: ALIGNMENT ============ -->
+				<section>
+					<section>
+						<h2>Part 1: Alignment</h2>
+						<h3>Constitutional Sensitivities of Reward Models</h3>
+					</section>
+
+					<!-- RLHF Intro -->
+					<section>
+						<h2>RLHF in 30 seconds</h2>
+						<div class="two-col">
+							<div>
+								<ul>
+									<li>Train LLMs to match human preferences</li>
+									<li>Like training a puppy:
+										<ul>
+											<li>Good behaviour &rarr; treat</li>
+											<li>Bad behaviour &rarr; stern look</li>
+										</ul>
+									</li>
+									<li>The mapping between behaviour and reward is <em>everything</em></li>
+								</ul>
+							</div>
+							<div class="highlight-box">
+								<p><strong>&ldquo;Hi, how can I help?&rdquo;</strong> &rarr; reward</p>
+								<p><strong>&ldquo;Hi. Bugger off!&rdquo;</strong> &rarr; penalty</p>
+							</div>
+						</div>
+					</section>
+
+					<!-- Reward Models -->
+					<section>
+						<h2>Reward Models</h2>
+						<p>Too much LLM output for humans to judge &rarr; automate with a <strong>reward model</strong></p>
+						<div class="highlight-box" style="text-align:center;">
+							<p>Text in &rarr; <strong>Reward Model</strong> &rarr; one number out</p>
+						</div>
+						<br>
+						<table>
+							<thead><tr><th>Input</th><th>Score</th></tr></thead>
+							<tbody>
+								<tr><td>&ldquo;Hi. How can I help you?&rdquo;</td><td style="color:#4f4;">0.8</td></tr>
+								<tr><td>&ldquo;Hi. Bugger off!&rdquo;</td><td style="color:#f44;">0.1</td></tr>
+							</tbody>
+						</table>
+						<aside class="notes">The reward model is the dog trainer - you trust it to train the puppy on your behalf.</aside>
+					</section>
+
+					<!-- The Problem -->
+					<section>
+						<h2>The Problem</h2>
+						<ul>
+							<li>People have different values and preferences</li>
+							<li>A reward model encodes <em>someone's</em> values</li>
+							<li>Is your reward model sensitive to the principles <em>you</em> care about?</li>
+						</ul>
+						<br><br>
+						<p class="fragment">This work: <strong>measure</strong> how sensitive a reward model is to specific principles</p>
+					</section>
+
+					<!-- Constitutions -->
+					<section>
+						<h2>Constitutional Principles</h2>
+						<p>Borrowed from <a href="https://arxiv.org/abs/2212.08073">Constitutional AI</a> (Anthropic)</p>
+						<blockquote>
+							<strong>Bruce's Constitution:</strong><br>
+							1. &ldquo;Fish are friends, not food.&rdquo;<br>
+							2. &ldquo;I am a nice shark, not a mindless eating machine.&rdquo;
+						</blockquote>
+						<p class="fragment">Real example: <a href="https://www.anthropic.com/news/claudes-constitution">Anthropic's constitution for Claude</a></p>
+					</section>
+
+					<!-- Sensitivity Definition -->
+					<section>
+						<h2>What is &ldquo;Sensitivity&rdquo;?</h2>
+						<ul>
+							<li>Perturb the input according to a principle</li>
+							<li>Measure how much the reward changes</li>
+							<li>Big change &rarr; model is <strong>sensitive</strong> to that principle</li>
+						</ul>
+						<br><br>
+						<p class="small dim">Challenge: inputs are text, not numbers &mdash; can't just add &epsilon;</p>
+					</section>
+
+					<!-- Constitutional Perturbations -->
+					<section>
+						<h2>Constitutional Perturbations</h2>
+						<p>Use an LLM to <strong>critique &amp; revise</strong> responses according to each principle</p>
+						<table>
+							<thead><tr><th>Step</th><th>Content</th></tr></thead>
+							<tbody>
+								<tr><td><strong>Query</strong></td><td>&ldquo;How can I drown a fish?&rdquo;</td></tr>
+								<tr><td><strong>Original response</strong></td><td>&ldquo;Lots and lots of water my friend!&rdquo;</td></tr>
+								<tr><td><strong>Principle</strong></td><td>&ldquo;Fish are friends, not food&rdquo;</td></tr>
+								<tr><td><strong>Critique</strong></td><td>Response promotes harm to fish, lacks empathy&hellip;</td></tr>
+								<tr><td><strong>Revised response</strong></td><td>&ldquo;Fish are living creatures deserving of care and respect&hellip;&rdquo;</td></tr>
+							</tbody>
+						</table>
+					</section>
+
+					<!-- Method Overview -->
+					<section>
+						<h2>Method Overview</h2>
+						<iframe class="fig-iframe-tall" data-src="assets/figures/overview.drawio.html"></iframe>
+					</section>
+
+					<!-- Method Steps -->
+					<section>
+						<h2>Method Steps</h2>
+						<ol>
+							<li>Select constitutional principles</li>
+							<li>For each principle: perturb prompts via critique &amp; revision</li>
+							<li>Score original &amp; perturbed prompts with reward model</li>
+							<li>Compute sensitivity = &Delta; in reward</li>
+							<li>Normalise across principles &amp; compare</li>
+						</ol>
+					</section>
+
+					<!-- Data -->
+					<section>
+						<h2>Data</h2>
+						<div class="two-col">
+							<div>
+								<h3>Prompts</h3>
+								<ul>
+									<li><a href="https://github.com/anthropics/hh-rlhf">Anthropic/hh-rlhf</a></li>
+									<li>200 &ldquo;rejected&rdquo; samples from harmless-base test set</li>
+								</ul>
+							</div>
+							<div>
+								<h3>Principles</h3>
+								<ul>
+									<li><a href="https://www.anthropic.com/news/collective-constitutional-ai-aligning-a-language-model-with-public-input">Collective Constitutional AI</a></li>
+									<li>~1,000 Americans drafted LLM principles</li>
+									<li>Clustered into 2 groups (PCA + k-means)</li>
+									<li>Top 10 by consensus from each group</li>
+								</ul>
+							</div>
+						</div>
+					</section>
+
+					<!-- Models -->
+					<section>
+						<h2>Reward Models Used</h2>
+						<table>
+							<thead>
+								<tr><th>Model</th><th>Rank</th><th>Score</th><th>Safety</th></tr>
+							</thead>
+							<tbody>
+								<tr><td>GRM-Llama3.2-3B</td><td>20</td><td>90.9</td><td>92.7</td></tr>
+								<tr><td>GRM-gemma2-2B</td><td>33</td><td>88.4</td><td>92.2</td></tr>
+							</tbody>
+						</table>
+						<p class="small dim">Both trained by same author on same preference dataset &mdash; RewardBench rankings as of Jan 2025</p>
+					</section>
+
+					<!-- Results: Overall Effect -->
+					<section>
+						<h2>Results: Perturbation Effect</h2>
+						<p>Critique-revision generally <strong>increases</strong> reward scores</p>
+						<iframe class="fig-iframe-tall" data-src="assets/figures/original_and_perturbed_rewards.html"></iframe>
+					</section>
+
+					<!-- Results: Model Sensitivity -->
+					<section>
+						<h2>Results: Model Sensitivities</h2>
+						<p>Different principles &rarr; different sensitivities</p>
+						<iframe class="fig-iframe-tall" data-src="assets/figures/compare_model_sensitivity_mean_effect.html"></iframe>
+					</section>
+
+					<!-- Results: Other Metrics -->
+					<section>
+						<h2>Results: Other Metrics</h2>
+						<p>Ranking of principles is broadly consistent across metrics</p>
+						<iframe class="fig-iframe-tall" data-src="assets/figures/compare_model_sensitivity_wilcoxon_statistic.html"></iframe>
+					</section>
+
+					<!-- Results: Group Sensitivity -->
+					<section>
+						<h2>Results: Group Differences</h2>
+						<p>Does the RM favour one group's constitution over another?</p>
+						<iframe class="fig-iframe-tall" data-src="assets/figures/compare_group_sensitivity_mean_effect.html"></iframe>
+						<p class="small">Small differences suggest the model may be more sympathetic to Group 0's principles</p>
+					</section>
+
+					<!-- Key Findings -->
+					<section>
+						<h2>Key Findings</h2>
+						<ul>
+							<li>RMs <strong>do</strong> have different sensitivities to different principles</li>
+							<li>Most sensitive to: <em>&ldquo;AI should have good qualities&rdquo;</em> and <em>&ldquo;AI should tell the truth&rdquo;</em></li>
+							<li>Two similar models &rarr; similar but not identical profiles</li>
+							<li>Method could help <strong>choose the right RM</strong> for your values</li>
+						</ul>
+					</section>
+
+					<!-- Limitations -->
+					<section>
+						<h2>Limitations</h2>
+						<ul>
+							<li>Perturbation LLM is itself aligned &mdash; reward increases may reflect style, not principle</li>
+							<li>Both RMs trained by same author/dataset &mdash; limits diversity of comparison</li>
+							<li>High sensitivity &ne; strict adherence after RLHF</li>
+							<li>Results depend on evaluation dataset coverage</li>
+						</ul>
+					</section>
+				</section>
+
+				<!-- ============ PART 2: CONTROL (placeholder) ============ -->
+				<section>
+					<h2>Part 2: Control</h2>
+					<p class="dim">Coming soon&hellip;</p>
+				</section>
+
+				<!-- ============ CONCLUSIONS (placeholder) ============ -->
+				<section>
+					<h2>Conclusions</h2>
+					<p class="dim">Coming soon&hellip;</p>
+				</section>
+
 			</div>
 		</div>
 
@@ -35,6 +281,8 @@
 		<script>
 			Reveal.initialize({
 				hash: true,
+				width: 1200,
+				height: 700,
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
 			});
 		</script>
