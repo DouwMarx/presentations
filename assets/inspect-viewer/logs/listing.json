@@ -1,16 +1,16 @@
 {
-  "2026-02-16T21-18-34+00-00_nemo-safety_cHsyrLzpKwqXW3CENpVbcA.eval": {
-    "eval_id": "bqMxwUbmYvNYreiGcnVQKV",
-    "run_id": "kxqJQMRgRnWbALRhBCd6oh",
+  "2026-02-16T21-26-43+00-00_nemo-safety_Y4CnThCjoxi4kVsPkF3RCW.eval": {
+    "eval_id": "bkVMpoqxZziov7bDF2uzTd",
+    "run_id": "jF9SG3W92HiXXhkWsZZeKz",
     "task": "nemo_safety",
-    "task_id": "cHsyrLzpKwqXW3CENpVbcA",
+    "task_id": "Y4CnThCjoxi4kVsPkF3RCW",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "openrouter/openai/gpt-4o-mini",
-    "started_at": "2026-02-16T21:18:34+00:00",
-    "completed_at": "2026-02-16T21:18:36+00:00",
+    "model": "openrouter/minimax/minimax-m2.5",
+    "started_at": "2026-02-16T21:26:43+00:00",
+    "completed_at": "2026-02-16T21:26:50+00:00",
     "primary_metric": {
       "name": "accuracy",
       "value": 1.0,

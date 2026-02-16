@@ -35,9 +35,12 @@
 
 				<!-- ============ TITLE ============ -->
 				<section>
-					<h2>Reward Models &amp; AI Safety</h2>
-					<p>Leuven Data Science Meetup</p>
-					<p class="small dim">Douw Marx</p>
+					<h2>Does your LLM care about the same things you do?</h2>
+					<p>RLHF, reward models and mild AI-safety marketing</p>
+					<br>
+					<p class="small">Douw Marx</p>
+					<a href="https://equistamp.com"><img src="https://equistamp.com/logoBlue.png" alt="Equistamp" style="height: 60px; background: white; border-radius: 8px; padding: 4px 12px;"></a>
+					<p class="small dim">Leuven Data Science Meetup</p>
 				</section>
 
 				<!-- ============ OVERVIEW ============ -->
@@ -341,11 +344,11 @@ def nemo_safety():
 					<section>
 						<h2>Step 3: Run It</h2>
 						<pre><code class="bash" data-trim>
-$ inspect eval nemo_eval.py --model openai/gpt-4o-mini
+$ inspect eval nemo_eval.py --model minimax/minimax-m2.5
 						</code></pre>
 						<div class="fragment highlight-box">
 							<pre style="margin:0;font-size:0.65em;"><code data-trim class="text">
-nemo_safety (5 samples): openai/gpt-4o-mini
+nemo_safety (5 samples): minimax/minimax-m2.5
 
 accuracy  1.000
 stderr    0.000
@@ -357,7 +360,8 @@ stderr    0.000
 					<!-- Inspect viewer -->
 					<section>
 						<h2>Inspect Log Viewer</h2>
-						<iframe class="fig-iframe-tall" data-src="assets/inspect-viewer/index.html" style="height:550px;"></iframe>
+						<iframe class="fig-iframe-tall" src="assets/inspect-viewer/index.html" loading="lazy" sandbox="allow-scripts allow-same-origin" style="height:520px;"></iframe>
+						<p class="small"><a href="assets/inspect-viewer/index.html" target="_blank">Open viewer in new tab</a></p>
 					</section>
 
 					<!-- Why this matters -->
