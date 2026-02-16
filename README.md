@@ -1,30 +1,45 @@
-<p align="center">
-  <a href="https://revealjs.com">
-  <img src="https://hakim-static.s3.amazonaws.com/reveal-js/logo/v1/reveal-black-text-sticker.png" alt="reveal.js" width="500">
-  </a>
-  <br><br>
-  <a href="https://github.com/hakimel/reveal.js/actions"><img src="https://github.com/hakimel/reveal.js/workflows/tests/badge.svg"></a>
-  <a href="https://slides.com/"><img src="https://static.slid.es/images/slides-github-banner-320x40.png?1" alt="Slides" width="160" height="20"></a>
-</p>
+# Presentations
 
-reveal.js is an open source HTML presentation framework. It enables anyone with a web browser to create beautiful presentations for free. Check out the live demo at [revealjs.com](https://revealjs.com/).
+A collection of reveal.js presentations hosted via GitHub Pages. Each presentation lives on its own branch and is merged into `master` for deployment.
 
-The framework comes with a powerful feature set including [nested slides](https://revealjs.com/vertical-slides/), [Markdown support](https://revealjs.com/markdown/), [Auto-Animate](https://revealjs.com/auto-animate/), [PDF export](https://revealjs.com/pdf-export/), [speaker notes](https://revealjs.com/speaker-view/), [LaTeX typesetting](https://revealjs.com/math/), [syntax highlighted code](https://revealjs.com/code/) and an [extensive API](https://revealjs.com/api/).
+## Viewing Presentations
 
----
+Presentations are available at:
+```
+https://douwmarx.github.io/presentations/index.html
+```
 
-Want to create reveal.js presentation in a graphical editor? Try <https://slides.com>. It's made by the same people behind reveal.js.
+## Creating a New Presentation
 
----
+1. Create an orphan branch from master:
+   ```bash
+   git checkout master
+   git checkout --orphan my-new-presentation
+   git reset --hard
+   ```
 
-### Getting started
-- 🚀 [Install reveal.js](https://revealjs.com/installation)
-- 👀 [View the demo presentation](https://revealjs.com/demo)
-- 📖 [Read the documentation](https://revealjs.com/markup/)
-- 🖌 [Try the visual editor for reveal.js at Slides.com](https://slides.com/)
-- 🎬 [Watch the reveal.js video course (paid)](https://revealjs.com/course)
+2. Create your `index.html` (use an existing presentation branch as a template).
 
---- 
-<div align="center">
-  MIT licensed | Copyright © 2011-2026 Hakim El Hattab, https://hakim.se
-</div>
+3. Commit and merge back to master:
+   ```bash
+   git add .
+   git commit -m 'Initial commit for my-new-presentation'
+   git checkout master
+   git merge my-new-presentation --allow-unrelated-histories
+   git push --all origin
+   ```
+
+## Updating reveal.js
+
+To pull the latest reveal.js changes:
+```bash
+git checkout master
+git pull upstream master
+git push origin master
+```
+
+## Current Presentations
+
+| Branch | Topic |
+|--------|-------|
+| `data-science-leuven-reward-models-ais` | Reward Models & AI Safety (Leuven Data Science Meetup) |
