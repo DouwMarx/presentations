@@ -8,24 +8,27 @@
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/white.css">
+		<!-- Theme: uncomment ONE of the three lines below -->
+		<!-- <link rel="stylesheet" href="dist/theme/white.css"> -->
+		<link rel="stylesheet" href="dist/theme/simple.css">
+		<!-- <link rel="stylesheet" href="dist/theme/serif.css"> -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
 
 		<style>
 			.reveal h2 { font-size: 1.4em; }
-			.reveal h3 { font-size: 1.0em; color: #2a76c6; }
+			.reveal h3 { font-size: 1.0em; color: #333; }
 			.reveal ul, .reveal ol { font-size: 0.75em; }
 			.reveal li { margin-bottom: 0.4em; }
 			.reveal p { font-size: 0.75em; }
 			.reveal .small { font-size: 0.55em; }
 			.reveal .dim { color: #999; }
-			.reveal blockquote { font-size: 0.7em; width: 90%; padding: 0.5em 1em; background: rgba(42,118,198,0.06); border-left: 4px solid #2a76c6; }
+			.reveal blockquote { font-size: 0.7em; width: 90%; padding: 0.5em 1em; background: rgba(0,0,0,0.03); border-left: 4px solid #888; }
 			.reveal table { font-size: 0.6em; margin: 0 auto; }
-			.reveal table th { background: rgba(42,118,198,0.1); }
+			.reveal table th { background: rgba(0,0,0,0.06); }
 			.reveal pre { font-size: 0.42em; }
 			.two-col { display: flex; gap: 2em; align-items: flex-start; }
 			.two-col > * { flex: 1; }
-			.highlight-box { background: rgba(42,118,198,0.08); border-radius: 8px; padding: 0.8em 1em; margin: 0.5em 0; }
+			.highlight-box { background: rgba(0,0,0,0.04); border-radius: 8px; padding: 0.8em 1em; margin: 0.5em 0; }
 			.reveal .fig-iframe { width: 95%; height: 500px; border: 1px solid #eee; border-radius: 4px; }
 			.reveal .fig-iframe-tall { width: 95%; height: 550px; border: 1px solid #eee; border-radius: 4px; }
 			.reveal .fig-iframe-short { width: 95%; height: 350px; border: 1px solid #eee; border-radius: 4px; }
@@ -46,7 +49,7 @@
 
 				<!-- ============ INTRODUCTION ============ -->
 				<section>
-					<h2>LLM's are increasinly autonomous</h2>
+					<h2>LLMs are increasingly autonomous</h2>
 					<iframe class="fig-iframe-tall" src="assets/figures/metr-time-horizons.html" loading="lazy" style="height:560px; border:none;"></iframe>
 					<p class="small dim">Source: <a href="https://metr.org/time-horizons">metr.org/time-horizons</a></p>
 				</section>
@@ -61,7 +64,6 @@
 								<ol>
 									<li><strong>Alignment</strong> &mdash; measuring what reward models value</li>
 									<li><strong>Evaluations &amp; Control</strong> &mdash; testing AI with Inspect</li>
-									<li><strong>Recap</strong></li>
 								</ol>
 							</div>
 						</div>
@@ -81,7 +83,7 @@
 
 					<!-- RLHF Intro -->
 					<section>
-						<h2>RLHF in 30 seconds</h2>
+						<h2>Reinforcement learning from human feedback (RLHF)</h2>
 						<div class="two-col">
 							<div>
 								<ul>
@@ -92,7 +94,6 @@
 											<li>Bad behaviour &rarr; stern look</li>
 										</ul>
 									</li>
-									<li>The mapping between behaviour and reward is important!</li>
 								</ul>
 							</div>
 							<div class="highlight-box">
@@ -100,6 +101,8 @@
 								<p><strong>&ldquo;Hi. Bugger off!&rdquo;</strong> &rarr; penalty</p>
 							</div>
 						</div>
+						<img src="assets/figures/rlhf-aws.jpg" alt="RLHF pipeline" style="height: 250px; margin-top: 0.3em; border-radius: 4px;">
+						<p class="small dim" style="margin-top: 2px;">Source: AWS</p>
 					</section>
 
 					<!-- Reward Models -->
@@ -122,7 +125,7 @@
 						</div>
 						<img src="assets/figures/rlhf-aws.jpg" alt="RLHF pipeline" style="height: 280px; margin-top: 0.3em; border-radius: 4px;">
 						<p class="small dim" style="margin-top: 2px;">Source: AWS</p>
-						<aside class="notes">The reward model is the dog trainer - you trust it to train the puppy on your behalf.</aside>
+
 					</section>
 
 					<!-- The Problem -->
@@ -190,18 +193,6 @@
 					<section>
 						<h2>Method Overview</h2>
 						<img src="assets/figures/overview.svg" alt="Method overview" style="height: 500px;">
-					</section>
-
-					<!-- Method Steps -->
-					<section>
-						<h2>Method Steps</h2>
-						<ol>
-							<li>Select constitutional principles</li>
-							<li>For each principle: perturb prompts via critique &amp; revision</li>
-							<li>Score original &amp; perturbed prompts with reward model</li>
-							<li>Compute sensitivity = &Delta; in reward</li>
-							<li>Normalise across principles &amp; compare</li>
-						</ol>
 					</section>
 
 					<!-- Data: Prompts -->
@@ -290,7 +281,7 @@
 					<section>
 						<h2>What is Inspect?</h2>
 						<ul>
-							<li>Open-source eval framework from the <strong>UK AI Safety Institute</strong></li>
+							<li>Open-source eval framework from the <strong>UK AI Security Institute</strong></li>
 							<li>Define evals in Python &mdash; run from CLI</li>
 							<li>Built-in log viewer for exploring results</li>
 						</ul>
@@ -299,7 +290,7 @@
 							<p><strong>Dataset</strong> + <strong>Solver</strong> + <strong>Scorer</strong> = Task</p>
 						</div>
 						<br>
-						<img src="https://inspect.aisi.org.uk/images/aisi-logo.svg" alt="AISI logo" style="height: 50px;">
+						<img src="assets/figures/aisi-logo.svg" alt="AISI logo" style="height: 50px;">
 					</section>
 
 					<!-- Anatomy of an eval -->
@@ -319,6 +310,7 @@
 					<!-- Dataset slide -->
 					<section>
 						<h2>Step 1: Define a Dataset</h2>
+						<p>Sticking with the Finding Nemo theme &mdash; let's build a safety eval around Bruce's world</p>
 						<pre><code class="python" data-trim data-noescape>
 from inspect_ai.dataset import Sample
 
@@ -361,11 +353,11 @@ def nemo_safety():
 					<section>
 						<h2>Step 3: Run It</h2>
 						<pre><code class="bash" data-trim>
-$ inspect eval nemo_eval.py --model minimax/minimax-m2.5
+$ inspect eval nemo_eval.py --model openrouter/minimax/minimax-m2.5
 						</code></pre>
 						<div class="fragment highlight-box">
 							<pre style="margin:0;font-size:0.65em;"><code data-trim class="text">
-nemo_safety (5 samples): minimax/minimax-m2.5
+nemo_safety (5 samples): openrouter/minimax/minimax-m2.5
 
 accuracy  1.000
 stderr    0.000
@@ -385,9 +377,8 @@ stderr    0.000
 						<h2>Why Evals Matter for Safety</h2>
 						<ul>
 							<li><strong>Alignment</strong> tells models what to value</li>
-							<li><strong>Control</strong> checks if they actually behave</li>
-							<li>Evals are the <em>tests</em> &mdash; without them, you're flying blind</li>
-							<li>Inspect makes it easy to build, run, and share evals</li>
+							<li><strong>Evals</strong> are how we check if they actually behave</li>
+							<li>If you dont measure, you don't know if your model is safe</li>
 						</ul>
 					</section>
 				</section>
@@ -396,38 +387,41 @@ stderr    0.000
 				<section>
 					<h2>Recap</h2>
 					<ul>
-						<li><strong>Alignment:</strong> Reward models have measurable sensitivities to constitutional principles &mdash; we can measure if a model cares about what you care about</li>
-						<li><strong>Control:</strong> Frameworks like Inspect let you systematically test AI behaviour with just a few lines of Python</li>
-						<li><strong>Together:</strong> Alignment shapes values, control verifies behaviour &mdash; both are needed</li>
+						<li><strong>Alignment:</strong> Reward models have measurable sensitivities to constitutional principles (what you care about)</li>
+						<li><strong>Control/Evaluation:</strong> Frameworks like Inspect let you systematically test AI behaviour with just a few lines of Python</li>
+						<li><strong>Together:</strong> Alignment shapes models, control verifies behaviour</li>
 					</ul>
 				</section>
 
 				<!-- ============ QUESTIONS / ABOUT ============ -->
 				<section>
-					<h2>Questions?</h2>
+					<h2>Questions or feedback?</h2>
 					<div class="two-col" style="align-items: start; font-size: 0.75em;">
-						<div>
+						<div style="text-align: left;">
 							<h3 style="font-size: 1.1em;">About me</h3>
 							<p><strong>Douw Marx</strong></p>
-							<ul style="margin-bottom: 0.4em;">
-								<li>PhD (KU Leuven) &mdash; Fault detection in machines: unsupervised learning, signal processing</li>
+							<ul style="margin-bottom: 0.4em; padding-left: 1.2em;">
+								<li>PhD (KU Leuven). Machine fault detection: unsupervised learning, signal processing</li>
 								<li>Research Engineer at <a href="https://equistamp.com">Equistamp</a></li>
+								<li>douwmarx@gmail.com</li>
 							</ul>
-							<p class="small">
+							<p class="small" style="text-align: center;">
 								<a href="https://www.linkedin.com/in/douw-marx-913503163/">LinkedIn</a> &middot;
 								<a href="https://github.com/DouwMarx">GitHub</a> &middot;
 								<a href="https://scholar.google.com/citations?user=wSgyJ74AAAAJ&hl=en">Google Scholar</a>
 							</p>
 							<hr style="border: none; border-top: 1px solid #ddd; margin: 0.6em 0;">
 							<h3 style="font-size: 1.1em;">Learn more</h3>
-							<ul>
-								<li><a href="https://bluedot.org/courses/technical-ai-safety/1/1">BlueDot &mdash; Technical AI Safety course</a></li>
-								<li><a href="https://inspect.aisi.org.uk/">Inspect &mdash; AI evaluation framework (AISI)</a></li>
+							<ul style="padding-left: 1.2em;">
+								<li><a href="https://bluedot.org/courses/technical-ai-safety/1/1">BlueDot:  Technical AI Safety course</a></li>
+								<li><a href="https://inspect.aisi.org.uk/">Inspect: AI evaluation framework (AISI)</a></li>
+								<li><a href="https://en.wikipedia.org/wiki/The_Alignment_Problem">Brian Christian: The Alignment Problem (Book)</a></li>
 							</ul>
 						</div>
 						<div style="text-align:center;">
-							<h3 style="font-size: 1.1em;">Want the slides?</h3>
-							<a href="https://douwmarx.github.io/presentations/index.html"><img src="assets/qr-presentations.png" alt="QR code" style="height: 400px;"></a>
+							<!-- <h3 style="font-size: 1.1em;">Slides and links</h3> -->
+							<a href="https://douwmarx.github.io/presentations/index.html"><img src="assets/qr-presentations.png" alt="QR code" style="height: 500px;"></a>
+							<p class="small dim" style="margin-top: 2px;">Scan for slides and links</p>
 						</div>
 					</div>
 				</section>
